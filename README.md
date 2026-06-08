@@ -1,158 +1,146 @@
-# LeadForge AI
+# LeadForge AI 🚀
 
-AI-Powered Lead Generation Platform for Agencies, Freelancers, and AI Consultants.
+> **Find businesses that need AI services — in minutes.**
 
-## Overview
+LeadForge AI is a complete SaaS MVP for freelancers, agencies, and AI automation consultants. It discovers local businesses, analyzes their websites, scores AI opportunities, and generates personalized cold outreach emails.
 
-LeadForge AI helps users discover local businesses, analyze their digital presence, identify AI automation opportunities, and generate personalized outreach emails.
-
-The platform streamlines the lead generation process by combining business discovery, website analysis, AI opportunity scoring, and AI-powered cold email generation into a single workflow.
+---
 
 ## Features
 
-### Business Discovery
+- 🔍 **Business Discovery** — Search local businesses by category + location (Google Places API or demo data)
+- 🌐 **Website Analysis** — Auto-detect contact forms, chat widgets, booking systems, SEO quality
+- 📊 **AI Opportunity Scoring** — 0-100 score based on digital gaps
+- 💡 **Smart Recommendations** — Tailored AI service recommendations per business
+- ✉️ **AI Email Generation** — Personalized cold emails via OpenAI GPT-4o-mini
+- 📥 **CSV Export** — Export all leads with one click
+- 🔒 **Security Hardened** — Rate limiting, CSP headers, input validation, UUID protection
+- 📱 **Fully Responsive** — Works on all devices
 
-* Search businesses by category and location
-* Collect business information
-* Store lead data for analysis
+---
 
-### Website Analysis
+## Quick Start
 
-* Detect website availability
-* Analyze website metadata
-* Identify contact forms
-* Detect chat widgets
-* Check booking systems
-* Evaluate social media presence
-
-### AI Opportunity Scoring
-
-* Analyze business digital maturity
-* Generate opportunity scores
-* Categorize leads into High, Medium, and Low opportunity groups
-
-### AI Recommendations
-
-* Suggest AI automation opportunities
-* Recommend chatbots
-* Recommend appointment automation
-* Recommend customer support automation
-
-### AI Email Generator
-
-* Generate personalized cold outreach emails
-* Use business analysis data
-* Create professional and human-like messaging
-
-### CSV Export
-
-* Export lead data
-* Download outreach-ready prospect lists
-
-## Tech Stack
-
-### Frontend
-
-* Next.js
-* TypeScript
-* Tailwind CSS
-* shadcn/ui
-
-### Backend
-
-* Next.js API Routes
-
-### Database
-
-* Supabase
-
-### AI
-
-* OpenAI API
-
-### Deployment
-
-* Vercel
-
-## Project Architecture
-
-```text
-LeadForge AI
-│
-├── Landing Page
-├── Dashboard
-├── Business Search
-├── Website Analysis Engine
-├── Opportunity Scoring Engine
-├── AI Recommendation Engine
-├── Email Generator
-└── CSV Export System
-```
-
-## Workflow
-
-1. Search businesses
-2. Collect lead information
-3. Analyze website presence
-4. Calculate AI opportunity score
-5. Generate recommendations
-6. Create personalized cold email
-7. Export leads to CSV
-
-## Key Learning Outcomes
-
-Through this project, I gained experience in:
-
-* SaaS application development
-* AI-powered workflows
-* Lead generation systems
-* API integration
-* Prompt engineering
-* Database design
-* Data processing
-* Frontend architecture
-* Responsive UI development
-* Product-focused development
-
-## Future Improvements
-
-* User authentication
-* Team collaboration
-* CRM integrations
-* Automated outreach campaigns
-* Lead enrichment
-* Analytics dashboard
-* Subscription billing
-* Multi-user support
-
-## Installation
+### 1. Clone & Install
 
 ```bash
-git clone https://github.com/yourusername/leadforge-ai.git
-
+git clone <your-repo>
 cd leadforge-ai
-
 npm install
+```
 
+### 2. Set Up Supabase
+
+1. Create a project at [app.supabase.com](https://app.supabase.com)
+2. Go to **SQL Editor** and run the contents of `supabase/migrations/001_initial_schema.sql`
+3. Go to **Project Settings → API** and copy your URL + keys
+
+### 3. Configure Environment Variables
+
+```bash
+cp .env.local.example .env.local
+```
+
+Edit `.env.local` with your actual keys:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+OPENAI_API_KEY=sk-your-key          # Optional
+GOOGLE_PLACES_API_KEY=your-key      # Optional
+NEXT_PUBLIC_SITE_URL=http://localhost:3000  # Change to production URL when deploying
+```
+
+### 4. Run
+
+```bash
 npm run dev
 ```
 
-## Environment Variables
+Open [http://localhost:3000](http://localhost:3000)
 
-Create a `.env.local` file:
+---
 
-```env
-OPENAI_API_KEY=your_openai_key
-SUPABASE_URL=your_supabase_url
-SUPABASE_ANON_KEY=your_supabase_key
+## Pages
+
+| Route | Description |
+|-------|-------------|
+| `/` | Landing page |
+| `/dashboard` | Search + stats |
+| `/results` | All leads table |
+| `/leads/[id]` | Lead detail + AI analysis + email generator |
+
+---
+
+## API Routes
+
+| Method | Route | Description |
+|--------|-------|-------------|
+| POST | `/api/search` | Search businesses |
+| POST | `/api/analyze/[id]` | Analyze website + score |
+| POST | `/api/email/[id]` | Generate cold email |
+| GET | `/api/leads` | List all leads |
+| GET/PATCH | `/api/leads/[id]` | Get / update single lead |
+
+---
+
+## Tech Stack
+
+- **Next.js 16** + **TypeScript** + **Tailwind CSS**
+- **Supabase** (PostgreSQL)
+- **OpenAI** GPT-4o-mini
+- **TanStack Table** for leads table
+- **PapaParse** for CSV export
+- **Lucide React** for icons
+
+---
+
+## Security
+
+The app includes multiple layers of protection:
+
+| Layer | Protection |
+|-------|------------|
+| **Rate Limiting** | 60 req/min per IP on all API routes |
+| **Input Validation** | UUID checks, search input allowlisting, field allowlisting on updates |
+| **Security Headers** | CSP, HSTS, X-Frame-Options, X-Content-Type-Options, Referrer-Policy |
+| **CORS** | Restricted to same-origin (not wildcard) |
+| **DoS Protection** | 1MB request body size limit |
+| **Injection Blocking** | SQL injection, XSS, path traversal patterns blocked at proxy level |
+| **Mass Assignment** | PATCH routes only accept allowlisted fields |
+| **Error Safety** | Internal errors never leaked to client responses |
+
+---
+
+## Deployment (Vercel)
+
+```bash
+vercel --prod
 ```
 
-## Author
+**Environment variables to set in Vercel dashboard:**
 
-Mohan Ram
+```
+NEXT_PUBLIC_SUPABASE_URL
+NEXT_PUBLIC_SUPABASE_ANON_KEY
+SUPABASE_SERVICE_ROLE_KEY
+OPENAI_API_KEY
+GOOGLE_PLACES_API_KEY
+NEXT_PUBLIC_SITE_URL    # <- Set to your Vercel URL e.g. https://leadforge-ai.vercel.app
+```
 
-Web Designer | Frontend Developer | AI Enthusiast
+---
+
+## Without API Keys
+
+The app works without API keys in demo mode:
+- **No Google Places key**: Uses realistic mock business data
+- **No OpenAI key**: Uses template-based email generation
+- **Supabase is required** for data persistence
+
+---
 
 ## License
 
-MIT License
+MIT
